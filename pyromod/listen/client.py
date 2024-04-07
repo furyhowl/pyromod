@@ -11,7 +11,7 @@ from ..types import ListenerTypes, Identifier, Listener
 from ..utils import should_patch, patch_into
 
 @patch_into(pyrogram.client.Client)
-class Client(pyrogram.client.Client.on_callback_query()):
+class Client(pyrogram.client.Client):
     listeners: Dict[ListenerTypes, List[Listener]]
     old__init__: Callable
 
@@ -83,7 +83,7 @@ class Client(pyrogram.client.Client.on_callback_query()):
         link_preview_options: Optional[pyrogram.types.LinkPreviewOptions] = None,
         disable_notification: Optional[bool] = False,
         protect_content: Optional[bool] = False,
-        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
+        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None
     ):
         sent_message = None
         if text.strip() != "":
