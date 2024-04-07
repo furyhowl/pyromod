@@ -83,7 +83,8 @@ class Client(pyrogram.client.Client):
         link_preview_options: Optional[pyrogram.types.LinkPreviewOptions] = None,
         disable_notification: Optional[bool] = False,
         protect_content: Optional[bool] = False,
-        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None
+        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
+        delete_question: Optional[bool] = False,
     ):
         sent_message = None
         if text.strip() != "":
@@ -102,6 +103,9 @@ class Client(pyrogram.client.Client):
         )
         if response:
             response.sent_message = sent_message
+
+        if delete_question:
+            await sent_message.delete()
 
         return response
 
