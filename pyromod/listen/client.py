@@ -10,12 +10,6 @@ from ..exceptions import ListenerTimeout, ListenerStopped
 from ..types import ListenerTypes, Identifier, Listener
 from ..utils import should_patch, patch_into
 
-if not config.disable_startup_logs:
-    print(
-        "Pyromod is working! If you like pyromod, please star it at https://github.com/usernein/pyromod"
-    )
-
-
 @patch_into(pyrogram.client.Client)
 class Client(pyrogram.client.Client.on_callback_query()):
     listeners: Dict[ListenerTypes, List[Listener]]
@@ -85,13 +79,16 @@ class Client(pyrogram.client.Client.on_callback_query()):
         user_id: Union[Union[int, str], List[Union[int, str]]] = None,
         message_id: Union[int, List[int]] = None,
         inline_message_id: Union[str, List[str]] = None,
-        *args,
-        **kwargs,
+        parse_mode: Optional[pyrogram.enums.ParseMode] = pyrogram.enums.ParseMode.MARKDOWN,
+        link_preview_options: Optional[pyrogram.types.LinkPreviewOptions] = None,
+        disable_notification: Optional[bool] = False,
+        protect_content: Optional[bool] = False,
+        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
     ):
         sent_message = None
         if text.strip() != "":
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
-            sent_message = await self.send_message(chat_to_ask, text, *args, **kwargs)
+            sent_message = await self.send_message(chat_id=chat_to_ask, text=text, parse_mode=parse_mode, link_preview_options=link_preview_options, disable_notification=disable_notification, protect_content=protect_content, reply_markup=reply_markup)
 
         response = await self.listen(
             filters=filters,
