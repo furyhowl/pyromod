@@ -6,7 +6,7 @@ authors = [
     { name = "Pauxis", email = "pauxiscezar@gmail.com" }
 ]
 dependencies = [
-    "pyrogram @ https://github.com/TelegramPlayGround/pyrogram.git"
+    "pyrogram @ git+https://github.com/TelegramPlayGround/pyrogram.git"
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
