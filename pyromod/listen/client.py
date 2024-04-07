@@ -84,12 +84,13 @@ class Client(pyrogram.client.Client):
         disable_notification: Optional[bool] = False,
         protect_content: Optional[bool] = False,
         reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
+        reply_parameters: Optional[pyrogram.types.ReplyParameters] = None,
         delete_question: Optional[bool] = False,
     ):
         sent_message = None
         if text.strip() != "":
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
-            sent_message = await self.send_message(chat_id=chat_to_ask, text=text, parse_mode=parse_mode, link_preview_options=link_preview_options, disable_notification=disable_notification, protect_content=protect_content, reply_markup=reply_markup)
+            sent_message = await self.send_message(chat_id=chat_to_ask, text=text, parse_mode=parse_mode, link_preview_options=link_preview_options, disable_notification=disable_notification, protect_content=protect_content, reply_markup=reply_markup, reply_parameters=reply_parameters)
 
         response = await self.listen(
             filters=filters,
