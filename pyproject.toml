@@ -5,9 +5,6 @@ description = "A monkeypatcher add-on for Pyrogram that does conversation handli
 authors = [
     { name = "Pauxis", email = "pauxiscezar@gmail.com" }
 ]
-dependencies = [
-    "git+https://github.com/TelegramPlayGround/pyrogram.git"
-]
 readme = "README.md"
 requires-python = ">= 3.8"
 
