@@ -18,6 +18,6 @@ You should have received a copy of the GNU General Public License
 along with pyromod.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from pyromod.helpers.helpers import array_chunk, bki, btn, force_reply, ikb, kb, kbtn, ntb
+from .helpers import array_chunk, bki, btn, force_reply, ikb, kb, kbtn, ntb
 
 __all__ = ["ikb", "bki", "ntb", "btn", "kb", "kbtn", "array_chunk", "force_reply"]

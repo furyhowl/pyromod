@@ -5,10 +5,10 @@ import pyrogram
 from pyrogram.filters import Filter
 from pyrogram.types import CallbackQuery
 
-from pyromod.config import config
-from pyromod.listen.client import Client
-from pyromod.types import Identifier, Listener, ListenerTypes
-from pyromod.utils import patch_into, should_patch
+from ..config import config
+from .client import Client
+from ..types import Identifier, Listener, ListenerTypes
+from ..utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.handlers.callback_query_handler.CallbackQueryHandler)

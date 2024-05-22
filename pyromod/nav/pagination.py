@@ -20,7 +20,7 @@ along with pyromod.  If not, see <https://www.gnu.org/licenses/>.
 
 import math
 
-from pyromod.helpers import array_chunk
+from ..helpers import array_chunk
 
 
 class Pagination:

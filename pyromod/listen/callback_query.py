@@ -2,9 +2,9 @@ from typing import List, Optional, Union
 
 import pyrogram
 
-from pyromod.listen.client import Client
-from pyromod.types import ListenerTypes
-from pyromod.utils import patch_into, should_patch
+from .client import Client
+from ..types import ListenerTypes
+from ..utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.types.bots_and_keyboards.CallbackQuery)

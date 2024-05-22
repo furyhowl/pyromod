@@ -4,13 +4,12 @@ from typing import Callable, Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram.filters import Filter
-from pyrogram.types import CallbackQuery
 
-from pyromod import Message
-from pyromod.config import config
-from pyromod.exceptions import ListenerStopped, ListenerTimeout
-from pyromod.types import Identifier, Listener, ListenerTypes
-from pyromod.utils import patch_into, should_patch
+from .. import Message, CallbackQuery
+from ..config import config
+from ..exceptions import ListenerStopped, ListenerTimeout
+from ..types import Identifier, Listener, ListenerTypes
+from ..utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.client.Client)

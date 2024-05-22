@@ -5,9 +5,9 @@ import pyrogram
 from pyrogram.filters import Filter
 from pyrogram.types import Message
 
-from pyromod.listen.client import Client
-from pyromod.types import Identifier, ListenerTypes
-from pyromod.utils import patch_into, should_patch
+from .client import Client
+from ..types import Identifier, ListenerTypes
+from ..utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.handlers.message_handler.MessageHandler)

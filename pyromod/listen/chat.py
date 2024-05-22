@@ -1,7 +1,7 @@
 import pyrogram
 
-from pyromod.listen.client import Client
-from pyromod.utils import patch_into, should_patch
+from .client import Client
+from ..utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.types.user_and_chats.chat.Chat)
