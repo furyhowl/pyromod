@@ -117,4 +117,7 @@ class CallbackQueryHandler(pyrogram.handlers.callback_query_handler.CallbackQuer
             else:
                 raise ValueError("Listener must have either a future or a callback")
         else:
-            await self.original_callback(client, query, *args)
+            if iscoroutinefunction(self.original_callback):
+                await self.original_callback(client, query, *args)
+            else:
+                self.original_callback(client, query, *args)

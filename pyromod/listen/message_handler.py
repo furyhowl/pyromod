@@ -1,12 +1,12 @@
 from inspect import iscoroutinefunction
-from typing import Callable
+from typing import Callable, Tuple
 
 import pyrogram
 from pyrogram.filters import Filter
 from pyrogram.types import Message
 
 from .client import Client
-from ..types import Identifier, ListenerTypes
+from ..types import Identifier, Listener, ListenerTypes
 from ..utils import patch_into, should_patch
 
 
@@ -21,7 +21,7 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
         self.old__init__(self.resolve_future_or_callback, filters)
 
     @should_patch()
-    async def check_if_has_matching_listener(self, client: Client, message: Message):
+    async def check_if_has_matching_listener(self, client: Client, message: Message) -> Tuple[bool, Listener]:
         from_user = message.from_user
         from_user_id = from_user.id if from_user else None
         from_user_username = from_user.username if from_user else None
@@ -87,4 +87,7 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
             else:
                 raise ValueError("Listener must have either a future or a callback")
         else:
-            await self.original_callback(client, message, *args)
+            if iscoroutinefunction(self.original_callback):
+                await self.original_callback(client, message, *args)
+            else:
+                self.original_callback(client, message, *args)
