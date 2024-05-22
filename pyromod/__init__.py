@@ -18,11 +18,11 @@ You should have received a copy of the GNU General Public License
 along with pyromod.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from .config import config
-from .helpers import ikb, bki, ntb, btn, kb, kbtn, array_chunk, force_reply
-from .listen import Client, MessageHandler, CallbackQueryHandler, Message, Chat, User
-from .nav import Pagination
-from .utils import patch_into, should_patch
+from pyromod.config import config
+from pyromod.helpers import array_chunk, bki, btn, force_reply, ikb, kb, kbtn, ntb
+from pyromod.listen import CallbackQuery, CallbackQueryHandler, Chat, Client, Message, MessageHandler, User
+from pyromod.nav import Pagination
+from pyromod.utils import patch_into, should_patch
 
 __all__ = [
     "config",
@@ -32,6 +32,7 @@ __all__ = [
     "Chat",
     "User",
     "CallbackQueryHandler",
+    "CallbackQuery",
     "patch_into",
     "should_patch",
     "ikb",

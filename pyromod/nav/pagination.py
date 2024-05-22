@@ -17,9 +17,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pyromod.  If not, see <https://www.gnu.org/licenses/>.
 """
+
 import math
 
-from ..helpers import array_chunk
+from pyromod.helpers import array_chunk
 
 
 class Pagination:
@@ -43,9 +44,7 @@ class Pagination:
         cutted = self.objects[offset:stop]
 
         total = len(self.objects)
-        pages_range = [
-            *range(1, math.ceil(total / quant_per_page) + 1)
-        ]  # each item is a page
+        pages_range = [*range(1, math.ceil(total / quant_per_page) + 1)]  # each item is a page
         last_page = len(pages_range)
 
         nav = []

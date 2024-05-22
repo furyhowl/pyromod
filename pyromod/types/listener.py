@@ -4,8 +4,8 @@ from typing import Callable
 
 from pyrogram.filters import Filter
 
-from .identifier import Identifier
-from .listener_types import ListenerTypes
+from pyromod.types.identifier import Identifier
+from pyromod.types.listener_types import ListenerTypes
 
 
 @dataclass

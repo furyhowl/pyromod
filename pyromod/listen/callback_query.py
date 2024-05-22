@@ -7,8 +7,8 @@ from pyromod.types import ListenerTypes
 from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.types.messages_and_media.message.Message)
-class Message(pyrogram.types.messages_and_media.message.Message):
+@patch_into(pyrogram.types.bots_and_keyboards.CallbackQuery)
+class CallbackQuery(pyrogram.types.bots_and_keyboards.CallbackQuery):
     _client = Client
 
     @should_patch()
@@ -26,7 +26,7 @@ class Message(pyrogram.types.messages_and_media.message.Message):
             timeout=timeout,
             filters=filters,
             unallowed_click_alert=alert,
-            chat_id=self.chat.id,
+            chat_id=self.message.chat.id,
             user_id=from_user_id,
             message_id=message_id,
         )

@@ -18,12 +18,13 @@ You should have received a copy of the GNU General Public License
 along with pyromod.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from .callback_query_handler import CallbackQueryHandler
-from .chat import Chat
-from .client import Client
-from .message import Message
-from .message_handler import MessageHandler
-from .user import User
+from pyromod.listen.callback_query import CallbackQuery
+from pyromod.listen.callback_query_handler import CallbackQueryHandler
+from pyromod.listen.chat import Chat
+from pyromod.listen.client import Client
+from pyromod.listen.message import Message
+from pyromod.listen.message_handler import MessageHandler
+from pyromod.listen.user import User
 
 __all__ = [
     "Client",
@@ -32,4 +33,5 @@ __all__ = [
     "Chat",
     "User",
     "CallbackQueryHandler",
+    "CallbackQuery",
 ]

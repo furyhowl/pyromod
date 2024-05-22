@@ -5,9 +5,9 @@ import pyrogram
 from pyrogram.filters import Filter
 from pyrogram.types import Message
 
-from .client import Client
-from ..types import ListenerTypes, Identifier
-from ..utils import should_patch, patch_into
+from pyromod.listen.client import Client
+from pyromod.types import Identifier, ListenerTypes
+from pyromod.utils import patch_into, should_patch
 
 
 @patch_into(pyrogram.handlers.message_handler.MessageHandler)
@@ -44,9 +44,7 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
                 if iscoroutinefunction(filters.__call__):
                     listener_does_match = await filters(client, message)
                 else:
-                    listener_does_match = await client.loop.run_in_executor(
-                        None, filters, client, message
-                    )
+                    listener_does_match = await client.loop.run_in_executor(None, filters, client, message)
             else:
                 listener_does_match = True
 
@@ -54,17 +52,13 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
 
     @should_patch()
     async def check(self, client: Client, message: Message):
-        listener_does_match = (
-            await self.check_if_has_matching_listener(client, message)
-        )[0]
+        listener_does_match = (await self.check_if_has_matching_listener(client, message))[0]
 
         if callable(self.filters):
             if iscoroutinefunction(self.filters.__call__):
                 handler_does_match = await self.filters(client, message)
             else:
-                handler_does_match = await client.loop.run_in_executor(
-                    None, self.filters, client, message
-                )
+                handler_does_match = await client.loop.run_in_executor(None, self.filters, client, message)
         else:
             handler_does_match = True
 
@@ -74,9 +68,7 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
 
     @should_patch()
     async def resolve_future_or_callback(self, client: Client, message: Message, *args):
-        listener_does_match, listener = await self.check_if_has_matching_listener(
-            client, message
-        )
+        listener_does_match, listener = await self.check_if_has_matching_listener(client, message)
 
         if listener and listener_does_match:
             client.remove_listener(listener)

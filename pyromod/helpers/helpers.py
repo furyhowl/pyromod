@@ -1,10 +1,4 @@
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    KeyboardButton,
-    ReplyKeyboardMarkup,
-    ForceReply,
-)
+from pyrogram.types import ForceReply, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 
 
 def ikb(rows=None):
@@ -15,9 +9,7 @@ def ikb(rows=None):
     for row in rows:
         line = []
         for button in row:
-            button = (
-                btn(button, button) if isinstance(button, str) else btn(*button)
-            )  # InlineKeyboardButton
+            button = btn(button, button) if isinstance(button, str) else btn(*button)  # InlineKeyboardButton
             line.append(button)
         lines.append(line)
     return InlineKeyboardMarkup(inline_keyboard=lines)

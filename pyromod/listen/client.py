@@ -1,14 +1,17 @@
 import asyncio
 from inspect import iscoroutinefunction
-from typing import Optional, Callable, Dict, List, Union
+from typing import Callable, Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram.filters import Filter
+from pyrogram.types import CallbackQuery
 
-from ..config import config
-from ..exceptions import ListenerTimeout, ListenerStopped
-from ..types import ListenerTypes, Identifier, Listener
-from ..utils import should_patch, patch_into
+from pyromod import Message
+from pyromod.config import config
+from pyromod.exceptions import ListenerStopped, ListenerTimeout
+from pyromod.types import Identifier, Listener, ListenerTypes
+from pyromod.utils import patch_into, should_patch
+
 
 @patch_into(pyrogram.client.Client)
 class Client(pyrogram.client.Client):
@@ -39,8 +42,7 @@ class Client(pyrogram.client.Client):
             inline_message_id=inline_message_id,
         )
 
-        loop = asyncio.get_event_loop()
-        future = loop.create_future()
+        future = self.loop.create_future()
 
         listener = Listener(
             future=future,
@@ -61,9 +63,7 @@ class Client(pyrogram.client.Client):
                 if iscoroutinefunction(config.timeout_handler.__call__):
                     await config.timeout_handler(pattern, listener, timeout)
                 else:
-                    await self.loop.run_in_executor(
-                        None, config.timeout_handler, pattern, listener, timeout
-                    )
+                    await self.loop.run_in_executor(None, config.timeout_handler, pattern, listener, timeout)
             elif config.throw_exceptions:
                 raise ListenerTimeout(timeout)
 
@@ -86,11 +86,20 @@ class Client(pyrogram.client.Client):
         reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
         reply_parameters: Optional[pyrogram.types.ReplyParameters] = None,
         delete_question: Optional[bool] = False,
-    ):
+    ) -> Message | CallbackQuery:
         sent_message = None
         if text.strip() != "":
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
-            sent_message = await self.send_message(chat_id=chat_to_ask, text=text, parse_mode=parse_mode, link_preview_options=link_preview_options, disable_notification=disable_notification, protect_content=protect_content, reply_markup=reply_markup, reply_parameters=reply_parameters)
+            sent_message = await self.send_message(
+                chat_id=chat_to_ask,
+                text=text,
+                parse_mode=parse_mode,
+                link_preview_options=link_preview_options,
+                disable_notification=disable_notification,
+                protect_content=protect_content,
+                reply_markup=reply_markup,
+                reply_parameters=reply_parameters,
+            )
 
         response = await self.listen(
             filters=filters,
@@ -118,9 +127,7 @@ class Client(pyrogram.client.Client):
             pass
 
     @should_patch()
-    def get_listener_matching_with_data(
-        self, data: Identifier, listener_type: ListenerTypes
-    ) -> Optional[Listener]:
+    def get_listener_matching_with_data(self, data: Identifier, listener_type: ListenerTypes) -> Optional[Listener]:
         matching = []
         for listener in self.listeners[listener_type]:
             if listener.identifier.matches(data):
@@ -132,9 +139,7 @@ class Client(pyrogram.client.Client):
 
         return max(matching, key=count_populated_attributes, default=None)
 
-    def get_listener_matching_with_identifier_pattern(
-        self, pattern: Identifier, listener_type: ListenerTypes
-    ) -> Optional[Listener]:
+    def get_listener_matching_with_identifier_pattern(self, pattern: Identifier, listener_type: ListenerTypes) -> Optional[Listener]:
         matching = []
         for listener in self.listeners[listener_type]:
             if pattern.matches(listener.identifier):
@@ -202,9 +207,7 @@ class Client(pyrogram.client.Client):
             if iscoroutinefunction(config.stopped_handler.__call__):
                 await config.stopped_handler(None, listener)
             else:
-                await self.loop.run_in_executor(
-                    None, config.stopped_handler, None, listener
-                )
+                await self.loop.run_in_executor(None, config.stopped_handler, None, listener)
         elif config.throw_exceptions:
             listener.future.set_exception(ListenerStopped())
 
