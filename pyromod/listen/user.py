@@ -1,11 +1,11 @@
-import pyrogram
+import hydrogram
 
-from .client import Client
-from ..utils import patch_into, should_patch
+from pyromod.listen.client import Client
+from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.types.user_and_chats.user.User)
-class User(pyrogram.types.user_and_chats.user.User):
+@patch_into(hydrogram.types.user_and_chats.user.User)
+class User(hydrogram.types.user_and_chats.user.User):
     _client: Client
 
     @should_patch()

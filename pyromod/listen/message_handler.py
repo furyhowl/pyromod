@@ -1,17 +1,17 @@
 from inspect import iscoroutinefunction
 from typing import Callable, Tuple
 
-import pyrogram
-from pyrogram.filters import Filter
-from pyrogram.types import Message
+import hydrogram
+from hydrogram.filters import Filter
+from hydrogram.types import Message
 
-from .client import Client
-from ..types import Identifier, Listener, ListenerTypes
-from ..utils import patch_into, should_patch
+from pyromod.listen.client import Client
+from pyromod.types import Identifier, Listener, ListenerTypes
+from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.handlers.message_handler.MessageHandler)
-class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
+@patch_into(hydrogram.handlers.message_handler.MessageHandler)
+class MessageHandler(hydrogram.handlers.message_handler.MessageHandler):
     filters: Filter
     old__init__: Callable
 
@@ -76,14 +76,14 @@ class MessageHandler(pyrogram.handlers.message_handler.MessageHandler):
             if listener.future and not listener.future.done():
                 listener.future.set_result(message)
 
-                raise pyrogram.StopPropagation
+                raise hydrogram.StopPropagation
             elif listener.callback:
                 if iscoroutinefunction(listener.callback):
                     await listener.callback(client, message, *args)
                 else:
                     listener.callback(client, message, *args)
 
-                raise pyrogram.StopPropagation
+                raise hydrogram.StopPropagation
             else:
                 raise ValueError("Listener must have either a future or a callback")
         else:

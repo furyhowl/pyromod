@@ -1,14 +1,14 @@
 from typing import List, Optional, Union
 
-import pyrogram
+import hydrogram
 
-from .client import Client
-from ..types import ListenerTypes
-from ..utils import patch_into, should_patch
+from pyromod.listen.client import Client
+from pyromod.types import ListenerTypes
+from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.types.bots_and_keyboards.CallbackQuery)
-class CallbackQuery(pyrogram.types.bots_and_keyboards.CallbackQuery):
+@patch_into(hydrogram.types.bots_and_keyboards.CallbackQuery)
+class CallbackQuery(hydrogram.types.bots_and_keyboards.CallbackQuery):
     _client = Client
 
     @should_patch()

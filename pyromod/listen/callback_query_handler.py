@@ -1,18 +1,18 @@
 from inspect import iscoroutinefunction
 from typing import Callable, Tuple
 
-import pyrogram
-from pyrogram.filters import Filter
-from pyrogram.types import CallbackQuery
+import hydrogram
+from hydrogram.filters import Filter
+from hydrogram.types import CallbackQuery
 
-from ..config import config
-from .client import Client
-from ..types import Identifier, Listener, ListenerTypes
-from ..utils import patch_into, should_patch
+from pyromod.config import config
+from pyromod.listen.client import Client
+from pyromod.types import Identifier, Listener, ListenerTypes
+from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.handlers.callback_query_handler.CallbackQueryHandler)
-class CallbackQueryHandler(pyrogram.handlers.callback_query_handler.CallbackQueryHandler):
+@patch_into(hydrogram.handlers.callback_query_handler.CallbackQueryHandler)
+class CallbackQueryHandler(hydrogram.handlers.callback_query_handler.CallbackQueryHandler):
     old__init__: Callable
 
     @should_patch()
@@ -106,14 +106,14 @@ class CallbackQueryHandler(pyrogram.handlers.callback_query_handler.CallbackQuer
             if listener.future and not listener.future.done():
                 listener.future.set_result(query)
 
-                raise pyrogram.StopPropagation
+                raise hydrogram.StopPropagation
             elif listener.callback:
                 if iscoroutinefunction(listener.callback):
                     await listener.callback(client, query, *args)
                 else:
                     listener.callback(client, query, *args)
 
-                raise pyrogram.StopPropagation
+                raise hydrogram.StopPropagation
             else:
                 raise ValueError("Listener must have either a future or a callback")
         else:

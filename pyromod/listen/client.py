@@ -2,16 +2,16 @@ import asyncio
 from inspect import iscoroutinefunction
 from typing import Callable, Dict, List, Optional, Union
 
-import pyrogram
+import hydrogram
 
-from ..config import config
-from ..exceptions import ListenerStopped, ListenerTimeout
-from ..types import Identifier, Listener, ListenerTypes
-from ..utils import patch_into, should_patch
+from pyromod.config import config
+from pyromod.exceptions import ListenerStopped, ListenerTimeout
+from pyromod.types import Identifier, Listener, ListenerTypes
+from pyromod.utils import patch_into, should_patch
 
 
-@patch_into(pyrogram.client.Client)
-class Client(pyrogram.client.Client):
+@patch_into(hydrogram.client.Client)
+class Client(hydrogram.client.Client):
     listeners: Dict[ListenerTypes, List[Listener]]
     old__init__: Callable
 
@@ -23,7 +23,7 @@ class Client(pyrogram.client.Client):
     @should_patch()
     async def listen(
         self,
-        filters: Optional[pyrogram.filters.Filter] = None,
+        filters: Optional[hydrogram.filters.Filter] = None,
         listener_type: ListenerTypes = ListenerTypes.MESSAGE,
         timeout: Optional[int] = None,
         unallowed_click_alert: bool = True,
@@ -69,21 +69,21 @@ class Client(pyrogram.client.Client):
         self,
         chat_id: Union[Union[int, str], List[Union[int, str]]],
         text: str,
-        filters: Optional[pyrogram.filters.Filter] = None,
+        filters: Optional[hydrogram.filters.Filter] = None,
         listener_type: ListenerTypes = ListenerTypes.MESSAGE,
         timeout: Optional[int] = None,
         unallowed_click_alert: bool = True,
         user_id: Union[Union[int, str], List[Union[int, str]]] = None,
         message_id: Union[int, List[int]] = None,
         inline_message_id: Union[str, List[str]] = None,
-        parse_mode: Optional[pyrogram.enums.ParseMode] = pyrogram.enums.ParseMode.MARKDOWN,
-        link_preview_options: Optional[pyrogram.types.LinkPreviewOptions] = None,
+        parse_mode: Optional[hydrogram.enums.ParseMode] = hydrogram.enums.ParseMode.MARKDOWN,
+        link_preview_options: Optional[hydrogram.types.LinkPreviewOptions] = None,
         disable_notification: Optional[bool] = False,
         protect_content: Optional[bool] = False,
-        reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
-        reply_parameters: Optional[pyrogram.types.ReplyParameters] = None,
+        reply_markup: Optional[hydrogram.types.InlineKeyboardMarkup | hydrogram.types.ReplyKeyboardMarkup] = None,
+        reply_parameters: Optional[hydrogram.types.ReplyParameters] = None,
         delete_question: Optional[bool] = False,
-    ) -> pyrogram.types.Message | pyrogram.types.CallbackQuery | None:
+    ) -> hydrogram.types.Message | hydrogram.types.CallbackQuery | None:
         sent_message = None
         if text.strip() != "":
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
@@ -212,7 +212,7 @@ class Client(pyrogram.client.Client):
     def register_next_step_handler(
         self,
         callback: Callable,
-        filters: Optional[pyrogram.filters.Filter] = None,
+        filters: Optional[hydrogram.filters.Filter] = None,
         listener_type: ListenerTypes = ListenerTypes.MESSAGE,
         unallowed_click_alert: bool = True,
         chat_id: Union[Union[int, str], List[Union[int, str]]] = None,

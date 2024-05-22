@@ -22,7 +22,7 @@ from contextlib import asynccontextmanager, contextmanager
 from inspect import iscoroutinefunction
 from typing import Callable, T, Type
 
-from pyrogram.sync import async_to_sync
+from hydrogram.sync import async_to_sync
 
 
 def patch_into(target_class):

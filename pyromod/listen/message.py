@@ -1,8 +1,8 @@
-import pyrogram
+import hydrogram
 
-from ..utils import patch_into
+from pyromod.utils import patch_into
 
 
-@patch_into(pyrogram.types.messages_and_media.message.Message)
-class Message(pyrogram.types.messages_and_media.message.Message):
+@patch_into(hydrogram.types.messages_and_media.message.Message)
+class Message(hydrogram.types.messages_and_media.message.Message):
     pass
