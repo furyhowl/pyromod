@@ -4,8 +4,6 @@ from typing import Callable, Dict, List, Optional, Union
 
 import pyrogram
 
-import pyromod
-
 from ..config import config
 from ..exceptions import ListenerStopped, ListenerTimeout
 from ..types import Identifier, Listener, ListenerTypes
@@ -85,7 +83,7 @@ class Client(pyrogram.client.Client):
         reply_markup: Optional[pyrogram.types.InlineKeyboardMarkup | pyrogram.types.ReplyKeyboardMarkup] = None,
         reply_parameters: Optional[pyrogram.types.ReplyParameters] = None,
         delete_question: Optional[bool] = False,
-    ) -> pyromod.listen.Message | pyromod.listen.CallbackQuery | None:
+    ) -> pyrogram.types.Message | pyrogram.types.CallbackQuery | None:
         sent_message = None
         if text.strip() != "":
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
